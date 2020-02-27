@@ -1,72 +1,94 @@
 package de.unifrankfurt.informatik.acoli.fid.xml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.stream.XMLStreamException;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+ * This class transforms an arbitrary XML Document into CoNLL based on a template that is presented when creating the
+ * object.
+ */
 public class XML2CoNLL {
 
-    private XPathFactory XPATH = XPathFactory.newInstance();
-    private SubtreeGenerator sg;
     private Template template;
+    @Deprecated
+    private SubtreeGenerator sg;
     private final static Logger LOGGER =
             Logger.getLogger(XML2CoNLL.class.getName());
 
     /**
      * the SubtreeGenerator represents the file. The Template tells the converter
      * how to analyze the xml file to produce CoNLL.
-     * @param sg
      * @param template
      */
-    public XML2CoNLL(SubtreeGenerator sg, Template template){
+    public XML2CoNLL(Template template){
+        this.template = template;
+        this.template.compile();
+    }
+
+    @Deprecated
+    public XML2CoNLL(SubtreeGenerator sg, Template template) {
         this.sg = sg;
         this.template = template;
+        this.template.compile();
+    }
+
+    public String transformXMLSentenceToCoNLLSentence(Document xmlSentence, String finalDelimiter) {
+        ArrayList<CoNLLRow> conllSentence;
+        try {
+            conllSentence = consumeSentence(xmlSentence);
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (CoNLLRow word : conllSentence) {
+            sb.append(word.toString());
+            sb.append("\n");
+        }
+        sb.append(finalDelimiter);
+        return sb.toString();
+    }
+    public String transformXMLSentenceToCoNLLSentence(Document xmlSentence) {
+        return transformXMLSentenceToCoNLLSentence(xmlSentence, "\n");
     }
 
     /**
-     *
      * @param out
      * @param n How many sentences to convert
      * @return
      */
+    @Deprecated
     public void transform(PrintStream out, int n) {
-        ArrayList<ArrayList<CoNLLRow>> conllSentences = new ArrayList<>();
-        ArrayList<Document> xmlSentences = new ArrayList<>();
-        try {
-            xmlSentences = this.sg.getSamples(n);
-        } catch ( XMLStreamException | IOException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Document> xmlSentences;
+
+        xmlSentences = this.sg.getSamples(n);
+        out.print(createCommentString(this.template)+"\n");
+        LOGGER.info("Extracted "+xmlSentences.size()+" sentences.");
 
         for (Document xmlSentence : xmlSentences){
             try {
-                ArrayList<CoNLLRow> words = consumeSentence(xmlSentence);
-                conllSentences.add(words);
-            } catch (XPathExpressionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        LOGGER.info("Extracted "+conllSentences.size()+" sentences.");
-
-            out.print(createCommentString(this.template)+"\n");
-            for (ArrayList<CoNLLRow> sentence : conllSentences) {
+                ArrayList<CoNLLRow> sentence = consumeSentence(xmlSentence);
                 for (CoNLLRow word : sentence) {
                     out.print(word.toString()+"\n");
                 }
                 out.print("\n");
                 out.flush();
+
+
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();
             }
-            out.close();
+        }
+        out.close();
 
     }
 
@@ -78,26 +100,29 @@ public class XML2CoNLL {
      */
     public CoNLLRow transformToCoNLL(Node node, Integer i){
         CoNLLRow row = new CoNLLRow(i);
-        if (this.template.columnPaths != null) {
-            this.template.columnPaths.forEach((col, xpath) -> {
+        if (this.template.columnXPaths != null) {
+            this.template.columnXPaths.forEach((col, xpath) -> {
                 try {
-                    String result = XPATH.newXPath().compile(xpath).evaluate(node, XPathConstants.STRING).toString();
-                    result = result == "" ? "_" : result;
-                    row.getColumns().put(col, result);
-
+                    if (xpath == null){
+                        row.getColumns().put(col, "FEATS");
+                    } else {
+                        String result = xpath.evaluate(node, XPathConstants.STRING).toString();
+                        result = result == "" ? "_" : result;
+                        row.getColumns().put(col, result);
+                    }
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             });
         }
-        if (this.template.featurePaths != null) {
-            this.template.featurePaths.forEach((feat, xpath) -> {
+        if (this.template.featureXPaths != null) {
+            this.template.featureXPaths.forEach((feat, xpath) -> {
                 try {
-                    String result = XPATH.newXPath().compile(xpath).evaluate(node, XPathConstants.STRING).toString();
+                    String result = xpath.evaluate(node, XPathConstants.STRING).toString();
                     result = result.equals("") ? "_" : result;
                     LOGGER.finest(result);
-                    row.getColumns().put(feat, result);
+                    row.getFeats().put(feat, result);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -116,7 +141,7 @@ public class XML2CoNLL {
      * @throws XPathExpressionException
      */
     public ArrayList<CoNLLRow> consumeSentence(Node sentence) throws XPathExpressionException{
-        NodeList words = (NodeList) XPATH.newXPath().compile(this.template.wordPath).evaluate(sentence, XPathConstants.NODESET);
+        NodeList words = (NodeList) this.template.wordXPath.evaluate(sentence, XPathConstants.NODESET);
         ArrayList<CoNLLRow> sentenceRows = new ArrayList<>();
         LOGGER.fine("Handling a sentence with "+words.getLength()+" words.");
         for (int i = 0; i < words.getLength(); i++){
@@ -132,13 +157,14 @@ public class XML2CoNLL {
      */
     public String createCommentString(Template template){
         ArrayList<String> comment = new ArrayList<>();
-        for (String column : template.columns){
+        comment.add("ID");
+        for (String column : template.columnPaths.keySet()){
             comment.add(column);
         }
         // in case we have features we replace the comment section.
-        if (template.feats != null) {
+        if (template.featurePaths != null) {
             ArrayList<String> feats = new ArrayList<>();
-            feats.addAll(template.feats);
+            feats.addAll(template.featurePaths.keySet());
 
             if (comment.contains("FEATS")){ // replaces the keyword with the actual featurenames
                 comment.set(comment.indexOf("FEATS"), String.join("|",feats));

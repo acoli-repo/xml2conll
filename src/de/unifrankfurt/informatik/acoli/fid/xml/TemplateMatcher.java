@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * then each get evaluated on each sample tree to figure out how well precision, recall and 
  * accuracy perform.
  * TODO: make this class static to (probably) improve performance.
+ * TODO: make matching selective on sentence node
  * @author lglaser
  *
  */
@@ -62,11 +63,14 @@ public class TemplateMatcher {
 		this.matches = matches;
 	}
 
+	public TemplateQuality getTemplateQuality(int i){
+		return (TemplateQuality) this.matches.toArray()[this.matches.size()-(i+1)];
+	}
 	public TemplateQuality getBestTemplateQuality(ArrayList<Document> subtrees){
 		this.subtrees = subtrees;
 		calculateQualities();
 		TemplateQuality bestMatch = matches.last();
-		LOGGER.info("Best match was: \n"+bestMatch);
+		//LOGGER.info("Best match was: \n"+bestMatch);
 		return bestMatch;
 	}
 	public Template getBestTemplate(){
@@ -75,7 +79,7 @@ public class TemplateMatcher {
 		}
 
 		TemplateQuality bestMatch = matches.last();
-		LOGGER.info("Best match was: \n"+bestMatch);
+		//LOGGER.info("Best match was: \n"+bestMatch);
 		return bestMatch.getTemplate();
 	}
 

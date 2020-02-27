@@ -60,8 +60,8 @@ public class TemplateQuality implements Comparable<TemplateQuality>{
 	public int compareTo(TemplateQuality o) {
 		HashMap<String, Float> other = o.getQuality();
 		return Comparator.comparingDouble((HashMap<String, Float> q) -> q.get("recall"))
-				.thenComparingDouble((HashMap<String, Float> q) -> q.get("precision"))
 				.thenComparingDouble((HashMap<String, Float> q) -> q.get("accuracy"))
+				.thenComparingDouble((HashMap<String, Float> q) -> q.get("precision"))
 				// add new comparing fields here
 				.compare(this.getQuality(), other);
     }
