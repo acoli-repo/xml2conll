@@ -1,0 +1,204 @@
+[{
+	"id" : "1",
+	"description" : "pseudo template, never seen",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"columns" : ["id","lemma","FEATS","token","pos"],
+	"feats" : ["pos", "lem"],
+	"columnPaths" : {
+		"id" : "@id",
+		"lemma" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos"
+	},
+	"featurePaths" : {
+		"pos" : "@pos",
+		"lemma" : "@lem"
+	}
+},{
+	"id" : "2",
+	"description" : "Pseudo Template, never seen",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//nt",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lemma","FEATS","token","pos"], 
+	"feats" : ["pos", "lem"],
+	"columnPaths" : {
+		"id" : "@id",
+		"lemma" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos"
+	},
+	"featurePaths" : {
+		"pos" : "@pos",
+		"lemma" : "@foo",
+		"bar" : "head"
+	}
+},{ // europarl 
+	"id" : "3",
+	"description" : "id,lem,hun,pos,tree,type,designed for Europarl Corpus v7",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","hun","pos","tree","type"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos",
+		"hun" : "@hun",
+		"tree" : "@tree",
+		"type" : "@type"
+	},
+	"featurePaths" : {
+	}
+},{
+	"id" : "4",
+	"description" : "minimal useful to conll; e.g. OfisPublik",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id", "token"],
+	"columnPaths" : {
+		"id" : "@id",
+		"token" : "text()"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "5",
+	"description" : "id,lem,pos,tree,type,EMEA?",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","pos","tree","type"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos",
+		"tree" : "@tree",
+		"type" : "@type"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "6",
+	"description" : "id,lem,pos,tree,type,hun,deprel; e.g. hrenwac",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","pos","tree","type", "hun","deprel"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos",
+		"tree" : "@tree",
+		"type" : "@type",
+		"hun" : "@hun",
+		"deprel" : "@deprel"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "7",
+	"description" : "id,lem,tnt,type,grok,tree",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","tnt","type", "grok", "tree"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"grok" : "@grok",
+		"tree" : "@tree",
+		"type" : "@type",
+		"tnt" : "@tnt"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "8",
+	"description" : "id,lem,pos,tree,type,hun; e.g. GlobalVoices",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","pos","type", "tree","hun"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"hun" : "@hun",
+		"tree" : "@tree",
+		"type" : "@type"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "9",
+	"description" : "id,lem,tree",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"columns" : ["id","lem","tree"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"tree" : "@tree"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "10",
+	"description" : "id, lem, melt, pos; e.g. MBS",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","pos","melt"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"hun" : "@hun",
+		"tree" : "@tree",
+		"melt" : "@melt"
+	},
+	"featurePaths" : {
+	}
+},{	"id" : "11",
+	"description" : "id, head, hun, tree, lem, pos, deprel, type, e.g. SETIMES2",
+	"hasID" : false,
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"chunkPath" : "chunk",
+	"columns" : ["id","lem","pos","tree","head","type","hun","deprel"], 
+	"columnPaths" : {
+		"id" : "@id",
+		"lem" : "@lem",
+		"token" : "text()",
+		"pos" : "@pos",
+		"tree" : "@tree",
+		"type" : "@type",
+		"hun" : "@hun",
+		"deprel" : "@deprel",
+		"head" : "@head"
+	},
+	"featurePaths" : {
+	}
+}
+//{
+//	"id" : 1,
+//	"description" : "",
+//	"hasID" : false,
+//	"wordPath" : "//field",
+//	"columns" : ["name"],
+//	"columnPaths" : {
+//		"name" : "subchild/foo/text()"
+//	}
+//},
+]
