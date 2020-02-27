@@ -3,7 +3,7 @@
 ## Installation
 Simply clone this repository to a given location on your computer, we assume a unix-like operating system but it should work on windows with cygwin.
 
-`git clone ...`
+`git clone http://github.com/acoli-repo/xml2conll/`
 
 Open the cloned folder on your terminal.
 
@@ -28,12 +28,12 @@ We provide a xml file and a template file you can work with in the example direc
 Use the `run.sh` together with the class name to invoke the main function.
 
 ```shell script
-./run.sh TemplateXMLConverter -f example/example.xml -t example/tutorial.json
+./run.sh TemplateXMLConverter -f example/example.xml -t example/tutorial.json --silent
 ```
 If you do not wish to rely on templates, you may also invoke the template guessing routine with the `--guess` parameter.
 
 ```shell script
-./run.sh TemplateXMLConverter -f example/example.xml --guess
+./run.sh TemplateXMLConverter -f example/example.xml --guess --silent
 ```
 
 For fine tuning you may change parameters like to file or sample size, see [the main README](README.md) for more information.
@@ -46,3 +46,7 @@ We use this to quickly index a candidate file to check if it contains relevant l
 ```shell script
 ./run.sh GenericXMLConverter -f example/example.xml
 ```
+
+These generic CoNLL files generally have more columns that the template-based conversion, because we do not  merge
+attribute columns here. 
+

@@ -82,15 +82,15 @@ All required .sh scripts are provided with this repository.
   * --guess: will ignore the templates and guess one instead
   * --silent: no logging output (also not this synopsis!)
 
-* E.g.: `./run.sh TemplateXMLConverter -f tinytest.xml -t lib/templates.json`
+* E.g.: `./run.sh TemplateXMLConverter -f example/example.xml -t example/tutorial.json`
 
 
 
 ### GenericXMLConverter
-* `GenericXMLRecognizer -f FILE [-n LENGTH] [--silent]`
+* `GenericXMLConverter -f FILE [-n LENGTH] [--silent]`
   * FILE: XML file to check
   * LENGTH: how many sentences to convert, will fully convert if empty
   * --silent: no logging output (also not this synopsis!)
-* E.g.: `./run.sh GenericXMLConverter -f tinytest.xml`
+* E.g.: `./run.sh GenericXMLConverter -f example/example.xml`
 
 
