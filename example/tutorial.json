@@ -1,0 +1,9 @@
+[{	
+	"sentencePath" : "s",
+	"wordPath" : "//w",
+	"columnPaths" : {
+		"CDATA": "text()",
+		"lemma": "@lem",
+		"id": "@id"
+	}
+}]

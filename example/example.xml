@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<s id="s1">
+		<w id="s1w1" lem="hello">Hello</w>
+		<w id="s1w2" lem="world">World</w>
+		<w id="s1w3">!</w>
+	</s>
+	<s id="s2">
+		<w id="s2w1" lem="this">This</w>
+		<w id="s2w2" lem="work">works</w>
+		<chunk id="c1">
+			<w id="s2w3" lem="like">like</w>
+			<w id="s2w4" lem="a">a</w>
+			<w id="s2w5" lem="breeze">breeze</w>
+			<w id="s2w6">.</w>
+		</chunk>
+	</s>
+</root>
